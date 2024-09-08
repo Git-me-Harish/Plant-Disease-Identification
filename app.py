@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 app = Flask(__name__)
 
-model =load_model('saved_model.pb')
+model =load_model('Plant.keras')
 print('Model loaded. Check http://127.0.0.1:5000/')
 
 labels = {0: 'Healthy', 1: 'Powdery', 2: 'Rust'}
@@ -47,3 +47,5 @@ def upload():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+

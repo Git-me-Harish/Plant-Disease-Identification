@@ -1,80 +1,103 @@
 {% extends "import.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 text-center">
-        <h2 class="mb-4">Plant Disease Classification Using Deep Learning</h2>
-        <p class="lead mb-5">Upload an image of a plant leaf to identify potential diseases.</p>
-        
-        <form id="upload-file" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="imageUpload" class="form-label">Choose an image</label>
-                <input type="file" name="file" class="form-control" id="imageUpload" accept=".png, .jpg, .jpeg">
-            </div>
-        </form>
+<main class="flex-grow">
+    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold text-white mb-4 animate-fade-in-down">Plant Disease Classification</h1>
+            <p class="text-xl text-white mb-8 animate-fade-in-up">Using Deep Learning to Identify Plant Diseases</p>
+            <a href="#upload" class="bg-white text-green-500 font-bold py-2 px-4 rounded-full hover:bg-green-100 transition duration-300 animate-bounce">
+                Get Started
+            </a>
+        </div>
+    </section>
 
-        <div class="image-section" style="display:none;">
-            <img id="imagePreview" class="img-fluid rounded mb-4" src="#" style="max-height: 300px;"/>
-            <div>
-                <button type="button" class="btn btn-primary btn-lg" id="btn-predict">
-                    <i class="fas fa-search mr-2"></i> Analyze Image
-                </button>
+    <section id="upload" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Upload an Image</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                    <form id="upload-file" method="post" enctype="multipart/form-data">
+                        <div class="flex items-center justify-center w-full">
+                            <label for="imageUpload" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 800x400px)</p>
+                                </div>
+                                <input type="file" name="file" class="hidden" id="imageUpload" accept=".png, .jpg, .jpeg">
+                            </label>
+                        </div>
+                        <div class="image-section mt-4" style="display:none;">
+                            <img id="imagePreview" class="max-w-full h-auto rounded-lg shadow-md" src="#" />
+                        </div>
+                        <button type="button" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300 mt-4" id="btn-predict">
+                            Predict
+                        </button>
+                    </form>
+                    <div class="loader mt-6 text-center" style="display:none;">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500"></div>
+                        <p class="mt-2">Analyzing image...</p>
+                    </div>
+                    <h3 id="result" class="mt-6 text-center" style="display:none;">
+                        <span></span>
+                    </h3>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="mt-4">
-            <div class="spinner-border text-primary" role="status" style="display:none;">
-                <span class="visually-hidden">Loading...</span>
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">About Our Project</h2>
+            <div class="max-w-3xl mx-auto">
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Our plant disease classification project leverages state-of-the-art deep learning techniques to identify various plant diseases from images. This innovative tool empowers farmers and gardeners to quickly diagnose issues with their crops, leading to more effective treatment strategies and improved yields.
+                </p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <i class="fas fa-leaf text-3xl text-green-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Accurate Diagnosis</h3>
+                        <p class="text-gray-700">Our AI model provides highly accurate plant disease diagnoses.</p>
+                    </div>
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <i class="fas fa-tachometer-alt text-3xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Fast Results</h3>
+                        <p class="text-gray-700">Get instant results to take quick action on plant health issues.</p>
+                    </div>
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <i class="fas fa-users text-3xl text-purple-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">User-Friendly</h3>
+                        <p class="text-gray-700">Easy-to-use interface accessible to farmers and gardeners alike.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div id="result" class="mt-4">
-            <h3 class="result-text"></h3>
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Contact Us</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                <form class="p-6 space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300">
+                        Send Message
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                    $('.image-section').show();
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        $("#imageUpload").change(function () {
-            $('.image-section').hide();
-            $('#btn-predict').show();
-            $('#result').text('');
-            $('#result').hide();
-            readURL(this);
-        });
-
-        $('#btn-predict').click(function () {
-            var form_data = new FormData($('#upload-file')[0]);
-            $(this).hide();
-            $('.spinner-border').show();
-
-            $.ajax({
-                type: 'POST',
-                url: '/predict',
-                data: form_data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                async: true,
-                success: function (data) {
-                    $('.spinner-border').hide();
-                    $('#result').fadeIn(600);
-                    $('#result .result-text').text('Prediction: ' + data);
-                    console.log('Success!');
-                },
-            });
-        });
-    });
-</script>
+    </section>
+</main>
 {% endblock %}
